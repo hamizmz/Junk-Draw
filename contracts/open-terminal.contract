@@ -1,0 +1,7 @@
+[Contractor Entry]
+Name=Open Terminal
+Icon=utilities-terminal
+Description=Opens a new terminal window for this directory
+MimeType=inode
+Exec=pantheon-terminal -w %U
+X-GNOME-Gettext-Domain=pantheon-terminal

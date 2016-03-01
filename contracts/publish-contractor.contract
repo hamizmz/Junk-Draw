@@ -1,0 +1,7 @@
+[Contractor Entry]
+Name=Publish Contract
+Icon=files
+Description=Publishes a text file as a contract
+MimeType=text/plain
+Exec=gksudo "cp -f %F /usr/share/contractor"
+X-GNOME-Gettext-Domain=pantheon-files

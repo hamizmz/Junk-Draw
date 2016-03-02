@@ -1,0 +1,6 @@
+[Contractor Entry]
+Name=Haxe Compile
+Icon=atom
+Description=Compiles haxe files into C++
+MimeType=text/plain
+Exec=haxe -main %F -cpp ./

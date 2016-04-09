@@ -1,0 +1,6 @@
+titlebar {
+	display:block;
+	padding:12px;
+	-webkit-user-select:none;
+	-webkit-app-region:drag;
+}

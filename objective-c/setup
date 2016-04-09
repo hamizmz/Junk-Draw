@@ -1,0 +1,84 @@
+#!/bin/bash
+
+# The following variables can be overridden from the command-line.
+# e.g. curl...install.sh | INSTALL_DIR=objc_test GNUSTEP_SOURCES=https://...mygnu bash -
+
+mkdir ${INSTALL_DIR:=gnustep-dev}
+
+GIST=${GIST:-nicerobot/5652802}
+GIST_ROOT=${GIST_ROOT:-https://gist.github.com/${GIST}}
+APT=${APT:-${GIST_ROOT}/raw/apt.sh}
+GNUSTEP_SOURCES=${GNUSTEP_SOURCES:-${GIST_ROOT}/raw/gnu_sources.txt}
+LIBOBJC2=${LIBOBJC2:-http://download.gna.org/gnustep/libobjc2-1.6.tar.gz}
+
+#
+
+cd ${INSTALL_DIR} || exit $?
+
+
+# apt-get install required packages
+
+date >> $(basename ${PWD}).log
+echo 'Asking for sudo to run apt-get:'
+{
+  curl -ks ${APT} | sudo bash -
+} 2>&1 | tee -a $(basename ${PWD}).log
+
+
+# Use clang
+
+export CC=clang
+
+
+# Install libobjc2
+
+LIBOBJC2_DIR=$(basename ${LIBOBJC2##*/} .tar.gz)
+[ -d ${LIBOBJC2_DIR} ] || curl -ks ${LIBOBJC2} | tar zx || exit $?
+(
+  cd ${LIBOBJC2_DIR} || exit $?
+  date >../$(basename ${PWD}).log
+  echo 'Building '$(basename ${PWD})
+  make 2>&1 | tee -a ../$(basename ${PWD}).log
+  echo 'Asking for sudo to install '$(basename ${PWD})
+  sudo make install 2>&1 | tee -a ../$(basename ${PWD}).log
+) || exit $?
+
+
+# Install GNUStep from source
+
+curl -ks ${GNUSTEP_SOURCES} | while read dl; do
+  pkg=$(basename ${dl##*/} .tar.gz)
+  echo 'Downloading '${pkg}
+  (
+    curl -ks ${dl} | tar vzx && cd ${pkg} || exit $?
+    {
+      ./configure
+      make
+      sudo make install
+    } 2>&1 | tee ../$(basename ${PWD}).log
+  ) 2>&1 | tee -a $(basename ${PWD}).log || exit $?
+done
+
+
+# Reinstall libdispatch-dev
+
+sudo apt-get install -y libdispatch-dev
+
+
+# Test it!
+
+curl -ksO https://gist.github.com/starbugs/5021960/raw/cf6982b93cbce7ccaccc1e3c9c57309db51ae831/main.m && {
+  clang `gnustep-config --objc-flags` \
+        -o main \
+        -x objective-c main.m \
+        -fconstant-string-class=NSConstantString \
+        -fobjc-nonfragile-abi \
+        -fblocks \
+        -lgnustep-base \
+        -lgnustep-gui \
+        -ldispatch \
+        -I/usr/include/GNUstep \
+        -L/usr/lib/GNUstep | tee -a $(basename ${PWD}).log
+} && LD_LIBRARY_PATH=/usr/local/lib ./main
+
+exit 0

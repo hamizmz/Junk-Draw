@@ -1,0 +1,5 @@
+#!/bin/bash
+
+valac \
+	main.vala \
+	-o main

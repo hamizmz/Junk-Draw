@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Hello World
+GenericName=Hello World App
+Comment=Proves that we can use Vala and Gtk
+Categories=GTK;Utility;
+Exec=hello-world
+Icon=application-science
+Terminal=false
+Type=Application
+X-GNOME-Gettext-Domain=hello-world
+X-GNOME-Keywords=Hello;World;Example;

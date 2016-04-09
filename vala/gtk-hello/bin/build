@@ -1,0 +1,6 @@
+#!/bin/bash
+
+valac \
+	--pkg gtk+-3.0 \
+	src/gtk-hello.vala \
+	-o hello-world

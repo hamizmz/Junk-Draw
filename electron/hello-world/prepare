@@ -1,0 +1,49 @@
+#!/bin/bash
+
+function check() {
+	if hash $1 2>/dev/null
+		then
+			echo "yup"
+		else
+			echo "nope"
+	fi
+}
+
+printf "\nChecking for dependencies..."
+
+if [ "$(check node)" = "nope" ] || [ "$(check npm)" = "nope" ]
+	then
+		printf "\nWe gonna need node and npm for this task. Learn how to install them here: https://nodejs.org/en/download/package-manager/\n"
+		exit 1
+fi
+
+if [ "$(check electron)" = "nope" ]
+	then
+		printf "\nHmmm looks like we don't have electron... let's try installing it..."
+		if [ "$(npm install -g electron-prebuilt)" ]
+			then
+				echo " done."
+			else
+				echo "Trying with sudo..."
+				if [ "$(sudo npm install -g electron-prebuilt)" ]
+					then
+						echo " done."
+					else
+						printf "\nUh oh... Are you connected to the internet?\n"
+						exit 1
+				fi
+		fi
+	else
+		echo " done."
+fi
+
+printf "\nDownloading the project's node dependencies..."
+
+if npm install; then
+		echo " done."
+	else
+		printf "\nDuder... are you connected to the internet?\n"
+		exit 1
+fi
+
+printf "\nBye :)\n"

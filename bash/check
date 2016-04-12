@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# So... does the command we've passed exist?
+
+if hash $1 2>/dev/null
+	then
+		echo "yup"
+	else
+		echo "nope"
+fi

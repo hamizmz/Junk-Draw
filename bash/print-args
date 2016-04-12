@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Yo so like... let's grab the first of the arguments, yo...
+echo $0
+
+# nice.

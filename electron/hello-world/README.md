@@ -1,11 +1,23 @@
-# Electron Hello World Example
+# Electron Hello World
 
-Minor optimizations present in main.js
+## Installation for Development
 
-## Dependencies
+Dawg it's so easy, dawg, just look, dawg:
 
-	- Electron
-		- Node
-	- socket.io
-	- fetch
+		./install-dev
 
+And that's it, dawg.  Ain't that cool, dawg?
+
+
+Okayokayokay check-ça, dawg:
+
+		./run
+
+BAM!!  You've got a window, dawg.
+
+
+Next... we want to maybe monitor our memory, ya feel, dawg?
+
+		./watch-memory
+
+On fleek amirite, dawg?

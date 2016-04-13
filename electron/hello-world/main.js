@@ -6,7 +6,9 @@ const app = electron.app;
 const server = require('http').Server(require('express')());
 const io = require('socket.io')(server);
 
-var _mainWindow = null;
+
+
+var _window = null;
 
 app.on('window-all-closed', function() {
 	// On OS X, we don't quit the program when all windows are closed (usually)
@@ -15,29 +17,30 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
-	_mainWindow = new electron.BrowserWindow({
+	_window = new electron.BrowserWindow({
 		"width": 600,
 		"height": 800,
+		"backgroundColor": "#404552",
 		
 		"directWrite": false,
 		"textAreasAreResizable": false,
 		"darkTheme": true,
-		//"frame": false,
-		//"transparent": true
 		
 		"webPreferences": {
 			"nodeIntegration": false,
-			//"autoHideMenuBar": true,
 			"java": false,
 			"plugins": false,
+			"webgl": false,
+			"webaudio": false,
+			"defaultEncoding": "UTF-8",
 		},
 	});
-	_mainWindow.setMenuBarVisibility(false);
-	_mainWindow.loadURL('file://' + __dirname + '/index.html');
+	_window.setMenuBarVisibility(false);
+	_window.loadURL('file://' + __dirname + '/index.html');
 	
 	// CLEAN-UP Window
-	_mainWindow.on('closed', function() {
-		_mainWindow = null;
+	_window.on('closed', function() {
+		_window = null;
 	});
 	
 	

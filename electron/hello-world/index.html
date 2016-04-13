@@ -6,13 +6,18 @@
 		<link rel="stylesheet" type="text/css" href="css/layout.css" />
 		<link rel="stylesheet" type="text/css" href="css/theme.css" />
 		
-		<script type="text/javascript" src="http://127.0.0.1:8989/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="js/lib/namespace.js"></script>
+		<script type="text/javascript" src="js/lib/fetch.js"></script>
 	</head>
 	<body>
 		
 		<script type="text/javascript">
-			var _socket = io("http://127.0.0.1:8989", {
-				"port": 8989
+			// If you're in development, set the following:
+			fetch.dev_mode = true;
+			// Grab our index js file:
+			console.log('Loading index.js...');
+			fetch('js/index.js', function() {
+				console.log('Finished loading.');
 			});
 		</script>
 	</body>

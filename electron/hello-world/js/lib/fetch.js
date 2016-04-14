@@ -102,7 +102,7 @@
 		newScript.type = 'text/javascript';
 		newScript.async = true;
 		newScript.onload = callback;
-
+		
 		newScript.src = Fetch.dev_mode ? src : _w.URL.createObjectURL(new Blob([code], { type: 'text/javascript' }));
 
 		var topScript = document.getElementsByTagName('script')[0];

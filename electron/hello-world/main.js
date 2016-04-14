@@ -9,15 +9,17 @@ const app = electron.app;
 const server = require('http').Server(require('express')());
 const io = require('socket.io')(server);
 
-const zmq = require('zmq');
+//const zmq = require('zmq');
 
 /*
 	PROPERTIES
 */
+//const WEB_IP = "http://127.0.0.1";
 const WEB_PORT = 8989;
+const ZMQ_IP = "tcp://127.0.0.1";
 const ZMQ_PORT = 9898;
-var _window = null;
 
+var _window = null;
 
 /*
 	WEB SOCKET JUNK
@@ -43,9 +45,9 @@ function setup_websocket() {
 /*
 	ZMQ SOCKET PAIR
 */
-function setup_zmq() {
+//function setup_zmq() {
 	/* We are ignoring this for now :) */
-};
+//};
 
 
 /*
@@ -93,4 +95,4 @@ function setup_window() {
 */
 setup_window();
 setup_websocket();
-setup_zmq(); // Does nothing at the moment
+//setup_zmq(); // Does nothing at the moment

@@ -8,8 +8,6 @@ var _socket = io("http://127.0.0.1:8989", {
 	"port": 8989
 });
 
-alert(dominique.el.method(true));
-
 loop.add(function() {
 	// DO SOMETHING EVERY 1 second.
 }, 1000);

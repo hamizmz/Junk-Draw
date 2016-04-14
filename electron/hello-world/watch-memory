@@ -1,8 +1,0 @@
-#!/bin/bash
-
-if top -p `pgrep electron | tr "\\n" "," | sed 's/,$//'`; then
-	exit 0
-else
-	printf "\n\e[0;31mNo dice, dawg.\e[0m  Did you execute \e[1;34m./run\e[0m??"
-	exit 1
-fi

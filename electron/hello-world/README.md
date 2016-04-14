@@ -18,6 +18,6 @@ BAM!!  You've got a window, dawg.
 
 Next... we want to maybe monitor our memory, ya feel, dawg?
 
-		./watch-memory
+		./watch-usage
 
 On fleek amirite, dawg?

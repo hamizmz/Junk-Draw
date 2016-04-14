@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if top -p `pgrep $1 | tr "\\n" "," | sed 's/,$//'`; then
+	exit 0
+else
+	printf "\n\e[0;31mNo dice, dawg.\e[0m  Looks like there's no process with this name."
+	exit 1
+fi

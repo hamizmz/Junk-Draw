@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Just Do It!</title>
+		<style type="text/css">
+			body {
+				background-color:transparent;
+				width:1280px;
+				height:720px;
+				overflow:hidden;
+			}
+			
+			#vid, #canvas {
+				position:absolute;
+				left:0;
+				top:0;
+				visibility:hidden;
+				opacity:0;
+			}
+			
+			#vid, #canvas, #output {
+				width:1280px;
+				height:720px;
+			}
+		</style>
+	</head>
+	<body>
+		<video id="vid"></video>
+		<canvas id="canvas"></canvas>
+		<canvas id="output"></canvas>
+		<script type="text/javascript" src="index.js"></script>
+	</body>
+</html>

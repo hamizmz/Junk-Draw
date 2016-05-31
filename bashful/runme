@@ -1,0 +1,38 @@
+# Look, ma! We can use comments like regular folk.
+
+# We provide dependencies and the means of how to obtain it.  We list them in
+# the order they will be checked and installed if necessary.
+
+[APPS]
+curl
+	apt-get install curl
+	yum install curl
+	pacman -S curl
+
+node
+	apt-get install nodejs && ln -s /usr/bin/nodejs ~/bin/node
+	yum install node
+	pacman -S node
+
+npm
+	apt-get install npm
+	yum install npm
+	pacman -S npm
+
+python
+	apt-get install python
+	yum install python
+	pacman -S python
+
+pip
+	apt-get install python-dev
+	yum install python-dev
+	pacman -S python-dev
+
+[SETUP]
+npm install
+# pip install has been augmented by this program to automagically read the
+# requirements.txt file within the root of execution.
+pip install
+
+# Anything else?

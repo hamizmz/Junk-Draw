@@ -1,0 +1,8 @@
+{
+	"name": "crosspile",
+	"version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "mkdirp": "~0.5.1",
+  }
+}

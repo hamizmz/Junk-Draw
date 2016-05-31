@@ -6,48 +6,46 @@
 const electron = require('electron');
 const app = electron.app;
 
-const server = require('http').Server(require('express')());
-const io = require('socket.io')(server);
+const WebServer = require("ws").Server;
+const dominique = require('./js/lib/dominique/node.js');
 
 //const zmq = require('zmq');
 
 /*
 	PROPERTIES
 */
-//const WEB_IP = "http://127.0.0.1";
 const WEB_PORT = 8989;
-const ZMQ_IP = "tcp://127.0.0.1";
-const ZMQ_PORT = 9898;
 
 var _window = null;
+var _ws = new WebServer({ port: WEB_PORT });
 
 /*
 	WEB SOCKET JUNK
+	TODO: stuff
+	
 */
 function setup_websocket() {
 	// SERVER JUNK
-	io.on('connection', function(socket) {
+	_ws.on('connection', function(socket) {
+		console.log('👍 ');
+		
+		socket.send("ready");
+		
 		// Template for socket events:
-		socket.on('Message', function(msg) {
-			console.log(msg);
+		socket.on('message', function(message) {
+			console.log(message);
+			
+			console.log('View is ready.');
+			dominique.init(socket);
+			dominique.hello_world();
 		});
 		
 		// Do something when socket disconnects?
-		socket.on('disconnect', function() {
-			console.log('User disconnected.');
+		socket.on('close', function() {
+			console.log('💀 ');
 		});
 	});
-	
-	server.listen(WEB_PORT);
 };
-
-
-/*
-	ZMQ SOCKET PAIR
-*/
-//function setup_zmq() {
-	/* We are ignoring this for now :) */
-//};
 
 
 /*
@@ -95,4 +93,3 @@ function setup_window() {
 */
 setup_window();
 setup_websocket();
-//setup_zmq(); // Does nothing at the moment

@@ -1,0 +1,14 @@
+{
+  "name": "hello-world",
+  "version": "1.0.0",
+  "description": "poop",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Graham Robertson and Daniel Alksnis",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}

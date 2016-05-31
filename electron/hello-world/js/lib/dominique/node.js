@@ -1,4 +1,6 @@
-exports = new (function Dominique() {
+const data = require('./data/examples.js');
+
+module.exports = new (function Dominique() {
 	/*
 		PROPERTIES
 	*/
@@ -7,8 +9,18 @@ exports = new (function Dominique() {
 	/*
 		API
 	*/
-	this.bind_socket = function(socket) {
-		
+	this.init = function(socket) {
+		_socket = socket;
 	};
+	
+	this.show = function(dom) {
+		_socket.send(JSON.stringify(dom), function() {
+			/* Events, bb */
+		});
+	};
+	
+	this.hello_world = function() {
+		this.show(data["hello_world"])
+	}.bind(this);
 	
 })();

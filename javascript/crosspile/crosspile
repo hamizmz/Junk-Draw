@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+/*
+
+	Compiles shit into two directories:
+	
+	./node/js/*
+	./www/js/*
+	
+	Subdirectories are mimicked from the ./src/ directory.
+
+*/
+
+const fs = require("fs");
+
+// Here we create our diectories.
+
+// If they're created successfully, we then crawl the directories and save two
+// copies of each file: one in www/js and one in node/js
+

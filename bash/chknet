@@ -1,0 +1,4 @@
+#!/bin/bash
+
+printf "Checking for internet, bro...\n\n"
+ping 8.8.8.8

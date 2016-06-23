@@ -1,0 +1,191 @@
+#!/bin/bash
+
+PROJECT=$1
+DIR=$2
+
+function echoln() {
+	printf "$@\n"
+}
+
+function make_file() {
+	echo "$2" >> "$1"
+}
+
+function make_bash() {
+	make_file $1 "#!/bin/bash"
+	make_file $1 ""
+	make_file $1 "$2"
+	chmod +x $1
+}
+
+function docker_file() {
+	cat <<-EOM
+	
+	############################################################
+	# $PROJECT
+	# Base: https://github.com/phusion/baseimage-docker
+	# Author: Graham Robertson
+	############################################################
+	
+	
+	########################################
+	# BASE SYSTEM:
+	FROM phusion/baseimage:0.9.18
+	RUN apt-get update
+	
+	ADD ./build_files /tmp/build_files
+	
+	# our application's code will be mapped here:
+	RUN mkdir -p /usr/local/$PROJECT
+	WORKDIR /usr/local/$PROJECT
+	ENTRYPOINT /usr/local/$PROJECT/bin/entrypoint
+	########################################
+	
+	
+	########################################
+	# ADD YOUR JUNK HERE:
+	
+	#
+	########################################
+	
+	
+	########################################
+	# EXTRAS:
+	RUN apt-get -y install toilet
+	RUN apt-get -y install lolcat
+	
+	RUN ln -s /usr/games/lolcat /usr/bin/lolcat
+	
+	########################################
+	
+	########################################
+	# CLEAN-UP (UNCOMMENT FOR PRODUCTION):
+	#RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+	
+	########################################
+	EOM
+}
+
+function build_cmd() {
+	cat <<-EOM
+	sudo docker build -t "$PROJECT-image" .
+	EOM
+}
+
+function clean_cmd() {
+	cat <<-EOM
+	container=\$(sudo docker ps -a -q)
+	if [[ \$container == "" ]]; then
+	     exit
+	fi
+	sudo docker rm \$container > /dev/null
+	EOM
+}
+
+function run_cmd() {
+	cat <<-EOM
+	./clean
+	sudo docker run --name "$PROJECT-container" -it -P -v "\$(pwd)/../application":"/usr/local/$PROJECT" "$PROJECT-image" /bin/bash
+	EOM
+}
+
+function shell_cmd() {
+	cat <<-EOM
+	sudo docker exec -it "$PROJECT-container" /bin/bash
+	EOM
+}
+
+function entrypoint() {
+	cat <<-EOM
+	function echoln() {
+		printf "\$@\n"
+	}
+
+	function logo() {
+		echoln ""
+		echoln "\e[1;37m"
+		echoln "                                .';;,..                                   "
+		echoln "                           .o0WMMMMMMMMNkc.                               "
+		echoln "                         '0WMMMMMMMMMMMMMMN:                              "
+		echoln "                        .W00MMMMMMMMMMMMMMMMk                     ;       "
+		echoln "   :                    OMKWMMMMMMMMMMMMMMMMM'                   d0       "
+		echoln "   :0.                  WKWMMNKKNMMMMXkdx0KkMl                 .OM:       "
+		echoln "    XXx.                0dWK.    xMMM'    0dM.                cNMo        "
+		echoln "    .xdNo               ,cNW.  .cNd.OXc,,:N0:               ;XMMl         "
+		echoln "      loXNl.             XMMMMMMMK ..MMMMMMM0             'KMMN;          "
+		echoln "       .ckWWd.           ,OO,.XMMWKWWMMMkc:.            'OMMMk.           "
+		echoln "         'cxNMO;           ON':MMMMMMMMK'N:           :KMMMK'             "
+		echoln "           ':d0MNd'        'MK .OKXNNXk xM'        .oNMMMX;               "
+		echoln "             .lNMMW0o.     .WMd  . .';;;WX      .c000MMK:                 "
+		echoln "                :OWX0O0d,   .dWWNWNMMMMMk.    ;OKxxXWk'                   "
+		echoln "                  .lKWOkkXOc. .lkOkkkko.  .:kXkdOWWd.                     "
+		echoln "                     .oXKdkk0Kxc.      'oKXxdxXWk;                        "
+		echoln "                        .:o0kdkkkOo:dKN0O0KWKd,      '::.                 "
+		echoln "               cXXKd.       'ldO0KOxxk0WX0O:.      ;NMMMW.                "
+		echoln "               kMWxNWc .,cdkOkxddkXNOkkOdOOxOK0Oo.lMK,:xl                 "
+		echoln "          .  ,..o.:;0M0d:;odONW0d:.  .,:d0X0kxdolXMX;K;Od:NcoNNk.         "
+		echoln "        lWMWoNMxMKkWlNMdkkko;.              ..':'NMc0WXMXM0.xNMM;         "
+		echoln "        oMW0ll0kkkxo'lMk                        .WN    ...lxlox;          "
+		echoln "         .;:;l;       0MkOK:                 xMXWW:        .              "
+		echoln "                       oKNXc                 'xkd.                        "
+		echoln "\e[0m"
+	}
+
+	function info() {
+		echoln "\e[1;31m"
+		toilet -f mono9 \$(hostname -I)
+		echoln "\e[0m"
+	}
+
+	function welcome() {
+		echoln "\e[1;32mFollow the white rabbit.\e[0m"
+		echoln ""
+	}
+	
+	function __main__() {
+		# Intro messages:
+		logo
+		info
+		
+		# Prepare Environment:
+		/sbin/my_init &> /dev/null &
+		
+		########################################
+		# ADD YOUR JUNK HERE:
+		#
+		########################################
+		
+		# BASH prompt:
+		welcome && bash
+	}
+
+	__main__
+	EOM
+}
+
+function setup() {
+	mkdir -p $DIR && cd $DIR
+	
+	mkdir -p container/build_files 
+	mkdir -p application/bin
+	
+	make_file README.md "# $PROJECT"
+	make_file container/Dockerfile "$(docker_file)"
+	
+	# COMMAND TOOLS:
+	make_bash container/build "$(build_cmd)"
+	make_bash container/clean "$(clean_cmd)"
+	make_bash container/run "$(run_cmd)"
+	make_bash container/shell "$(shell_cmd)"
+	
+	# ENTRYPOINT
+	make_bash application/bin/entrypoint "$(entrypoint)"
+}
+
+if [ "$DIR" == "" ]; then
+	DIR=$PROJECT
+fi
+
+echoln "Creating Docker project $PROJECT into $DIR/..."
+setup
+echoln "Done!"

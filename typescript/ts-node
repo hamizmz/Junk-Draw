@@ -1,0 +1,116 @@
+#!/bin/bash
+
+PROJECT=$1
+DIR=$2
+
+function echoln() {
+	printf "$@\n"
+}
+
+function make_file() {
+	echo "$2" >> "$1"
+}
+
+function make_bash() {
+	make_file $1 "#!/bin/bash"
+	make_file $1 ""
+	make_file $1 "$2"
+	chmod +x $1
+}
+
+function tsconfig() {
+	cat <<-EOM
+	{
+	    "compilerOptions": {
+	        "target": "es5",
+	        "module": "commonjs",
+	        "emitDecoratorMetadata": true,
+	        "experimentalDecorators": true,
+	        "outDir": "build",
+	        "rootDir": "src",
+	        "noImplicitReturns": true
+	    },
+	    "exclude": [
+	        "node_modules",
+	        "build"
+	    ]
+	}
+	EOM
+}
+
+function package() {
+	cat <<-EOM
+	{
+	    "name": "$PROJECT",
+	    "version": "1.0.0",
+	    "description": "Just another project...",
+	    "main": "build/main.js",
+	    "repository": "private",
+		"description": "",
+	    "scripts": {
+	        
+	    },
+	    "keywords": [],
+	    "author": "🍔 hamizmz",
+	    "license": "ISC"
+	}
+	EOM
+}
+
+function run_cmd() {
+	cat <<-EOM
+		echo "Compiling JavaScript..."
+		tsc --pretty -w -p . &
+		sleep 2.5
+		nodemon --watch build ./build/main.js
+	EOM
+}
+
+function hello_world() {
+	cat <<-EOM
+		var log: any = require('terminal-kit').terminal;
+		
+		log.white('\n****************************************\n');
+		log.white("* ").yellow("$PROJECT").white('\n');
+		log.white("* ").red('Generated: ').white((new Date()).toString()).white("\n");
+		log.white('****************************************\n\n');
+	EOM
+}
+
+function readme() {
+	cat <<-EOM
+		# $PROJECT
+	EOM
+}
+
+function setup() {
+	mkdir -p $DIR && cd $DIR
+	
+	make_file package.json "$(package)"
+	
+	mkdir build
+	mkdir src
+	mkdir typings
+	
+	make_file tsconfig.json "$(tsconfig)"
+	
+	make_file README.md "$(readme)"
+	make_file LICENSE ""
+	
+	make_bash run "$(run_cmd)"
+	
+	make_file ./src/main.ts "$(hello_world)"
+	
+	# sudo npm install -g typings
+	# sudo npm install -g nodemon
+	# sudo npm install -g typescript
+	typings install dt~node --global
+	npm install --save terminal-kit
+}
+
+if [ "$DIR" == "" ]; then
+	DIR=$PROJECT
+fi
+
+echoln "Building $PROJECT into $DIR/..."
+setup

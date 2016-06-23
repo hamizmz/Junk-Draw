@@ -1,0 +1,17 @@
+#!/bin/bash
+
+function loop() {
+	for i in "$@"; do
+		echo ~/Pictures/gifs/$i
+		set-wallpaper ~/Pictures/gifs/$i
+		sleep 8
+	done
+	start
+}
+
+function start() {
+	loop $(ls .)
+}
+
+cd ~/Pictures/gifs
+start

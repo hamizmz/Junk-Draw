@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cat <<-EOM
+{
+	"name": "$1",
+	"version": "1.0.0",
+	"description": "",
+	"main": "build/main.js",
+	"scripts": {
+	},
+	"keywords": [],
+	"author": "🍔 hamizmz",
+	"license": "ISC"
+}
+EOM

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# 1 - mask-text
+# 2 - secret
+# 3 - output
+
+cat "$2" | plainsight -m encipher -f "$1" > "$3"
+yo "CIPHERED!"

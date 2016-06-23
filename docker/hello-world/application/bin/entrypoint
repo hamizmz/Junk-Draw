@@ -1,0 +1,65 @@
+#!/bin/bash
+
+function echoln() {
+printf "$@\n"
+}
+
+function logo() {
+echoln ""
+echoln "\e[1;37m"
+echoln "                                .';;,..                                   "
+echoln "                           .o0WMMMMMMMMNkc.                               "
+echoln "                         '0WMMMMMMMMMMMMMMN:                              "
+echoln "                        .W00MMMMMMMMMMMMMMMMk                     ;       "
+echoln "   :                    OMKWMMMMMMMMMMMMMMMMM'                   d0       "
+echoln "   :0.                  WKWMMNKKNMMMMXkdx0KkMl                 .OM:       "
+echoln "    XXx.                0dWK.    xMMM'    0dM.                cNMo        "
+echoln "    .xdNo               ,cNW.  .cNd.OXc,,:N0:               ;XMMl         "
+echoln "      loXNl.             XMMMMMMMK ..MMMMMMM0             'KMMN;          "
+echoln "       .ckWWd.           ,OO,.XMMWKWWMMMkc:.            'OMMMk.           "
+echoln "         'cxNMO;           ON':MMMMMMMMK'N:           :KMMMK'             "
+echoln "           ':d0MNd'        'MK .OKXNNXk xM'        .oNMMMX;               "
+echoln "             .lNMMW0o.     .WMd  . .';;;WX      .c000MMK:                 "
+echoln "                :OWX0O0d,   .dWWNWNMMMMMk.    ;OKxxXWk'                   "
+echoln "                  .lKWOkkXOc. .lkOkkkko.  .:kXkdOWWd.                     "
+echoln "                     .oXKdkk0Kxc.      'oKXxdxXWk;                        "
+echoln "                        .:o0kdkkkOo:dKN0O0KWKd,      '::.                 "
+echoln "               cXXKd.       'ldO0KOxxk0WX0O:.      ;NMMMW.                "
+echoln "               kMWxNWc .,cdkOkxddkXNOkkOdOOxOK0Oo.lMK,:xl                 "
+echoln "          .  ,..o.:;0M0d:;odONW0d:.  .,:d0X0kxdolXMX;K;Od:NcoNNk.         "
+echoln "        lWMWoNMxMKkWlNMdkkko;.              ..':'NMc0WXMXM0.xNMM;         "
+echoln "        oMW0ll0kkkxo'lMk                        .WN    ...lxlox;          "
+echoln "         .;:;l;       0MkOK:                 xMXWW:        .              "
+echoln "                       oKNXc                 'xkd.                        "
+echoln "\e[0m"
+}
+
+function info() {
+echoln "\e[1;31m"
+toilet -f mono9 $(hostname -I)
+echoln "\e[0m"
+}
+
+function welcome() {
+echoln "\e[1;32mFollow the white rabbit.\e[0m"
+echoln ""
+}
+
+function __main__() {
+# Intro messages:
+logo
+info
+
+# Prepare Environment:
+/sbin/my_init &> /dev/null &
+
+########################################
+# ADD YOUR JUNK HERE:
+#
+########################################
+
+# BASH prompt:
+welcome && bash
+}
+
+__main__

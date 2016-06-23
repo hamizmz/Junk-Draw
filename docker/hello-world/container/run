@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./clean
+sudo docker run --name "hello-world-container" -it -P -v "$(pwd)/../application":"/usr/local/hello-world" "hello-world-image" /bin/bash

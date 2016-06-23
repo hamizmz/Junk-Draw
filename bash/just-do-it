@@ -1,0 +1,3 @@
+#!/bin/bash
+
+electron --enable-transparent-visuals --disable-gpu ~/Code/Junk-Draw/electron/shia

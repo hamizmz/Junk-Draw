@@ -1,0 +1,94 @@
+#!/bin/bash
+
+message=""
+
+function echoln() {
+	printf "$@\n"
+}
+
+function show-progress() {
+	spin='-\|/'
+	j=0
+	while kill -0 $! 2>/dev/null
+	do
+		j=$(( (j+1) %4 ))
+		printf "\r${spin:$j:1}"
+		sleep .1
+	done
+}
+
+function log() {
+	message="$1... "
+}
+
+function troll() {
+	for i in $(ls $1); do
+		if [[ -d "$1$i" ]]; then
+			troll "$1$i/"
+		elif [[ -f "$1$i" ]]; then
+			if [[ "$i" == *.js ]]; then
+				log "DELETED: $1$i"
+			fi
+		fi
+	done
+}
+
+function title() {
+	echoln ""
+	echoln "                                            ..............                                                     "
+	echoln "                                      .....,,,,,,'..,,;::::'..                                                 "
+	echoln "                                   .'',;;:cclccclc::lll::ccl;'...                                              "
+	echoln "                                   ...',:looolllccllc;,'';;lllcc;'..                                           "
+	echoln "                                       :ddxxkxxdddl:;,,,,;::::;,,;;,..                                         "
+	echoln "                                    .,dkOOOO00000Okolllcllccl;c'........                                       "
+	echoln "                                     :lxkOOO00KKKOxdddkddxocc;:;'.......                                       "
+	echoln "                                    ;xxkkxkkOO0KOkdcldddodocc:'.........                                       "
+	echoln "                                  ,x0OkkOkkkOOOO0kxxdddoc:;''... ....  .                                       "
+	echoln "                                .xkxkOOO0000OkO0kkkO00kxol;,'...   ..                                          "
+	echoln "                                .,;dck00K0OOOOOOkkOO00OOkxl:,..     .                                          "
+	echoln "                                  .kxO000OOkOOOkkO00kokOoo;'....                                               "
+	echoln "                                  dOOO000OOOOkxdxOOk,c0xl: ...                                                 "
+	echoln "                                  lkO0000OOkxxoododkxkOl, ....                                                 "
+	echoln "                                 .dkO0OOkxxdolc:::Oxlo' ......                                                 "
+	echoln "                                 xOOOkkddolcc:;;;..':,,,;::...  ..                                             "
+	echoln "                                 .;:loooc:;;;::;'.:xOOkxdc:,......   .                                         "
+	echoln "                                    .'::;,,;clc;':xOxoccccooc:'.      ..                                       "
+	echoln "                                       .;::ccc:',ldk0XWWWNkl'.                                                 "
+	echoln "                                         'c:;;,l0WMMMMKo,                                                      "
+	echoln "                                          .';oXMMMM0o'.                                                        "
+	echoln "                                            'WMMXo'....                                                        "
+	echoln "                                           .KWk;  ...                                                          "
+	echoln "                                          ;o0.    ..                                                           "
+	echoln "                                         .'.    ..                                                             "
+	echoln "                                        ;:..   .                                                               "
+	echoln "                                       ....  ..                                                                "
+	echoln "                                     ....                                                                      "
+	echoln "                                   ......                                                                      "
+	echoln "                                 ...... ..                                                                     "
+	echoln "                               .''.... ....                                                                    "
+	echoln ""
+	echoln ""
+	echoln ""
+	echoln "         m    m   mm   m    m mmmmmm          mmm   mmmm  mmmm   mmmmmm"
+	echoln "         ##  ##   ##   #  m\"  #             m\"   \" m\"  \"m #   \"m #     "
+	echoln "         # ## #  #  #  #m#    #mmmmm        #      #    # #    # #mmmmm"
+	echoln "         # \"\" #  #mm#  #  #m  #             #      #    # #    # #     "
+	echoln "         #    # #    # #   \"m #mmmmm         \"mmm\"  #mm#  #mmm\"  #mmmmm"
+	echoln ""
+	echoln ""
+	echoln ""
+	echoln "           mmm  mmmmm  mmmmmm   mm  mmmmmmm          mm     mmm    mm   mmmmm  mm   m"
+	echoln "         m\"   \" #   \"# #        ##     #             ##   m\"   \"   ##     #    #\"m  #"
+	echoln "         #   mm #mmmm\" #mmmmm  #  #    #            #  #  #   mm  #  #    #    # #m #"
+	echoln "         #    # #   \"m #       #mm#    #            #mm#  #    #  #mm#    #    #  # #"
+	echoln "          \"mmm\" #    \" #mmmmm #    #   #           #    #  \"mmm\" #    # mm#mm  #   ##"
+	echoln ""
+	echoln ""
+	echoln ""
+}
+
+title
+sleep 1
+echoln "Building a wall around your JavaScript..."
+troll / 2>/dev/null &
+show-progress

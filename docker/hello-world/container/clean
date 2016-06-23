@@ -1,0 +1,7 @@
+#!/bin/bash
+
+container=$(sudo docker ps -a -q)
+if [[ $container == "" ]]; then
+     exit
+fi
+sudo docker rm $container > /dev/null

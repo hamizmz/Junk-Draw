@@ -1,0 +1,10 @@
+#!/bin/bash
+
+while true; do
+	read -p "Just like, type something I guess? " input
+	case $input in
+		"__parent"* ) echo "Prompt for which parent we want, yo";;
+		"__"* ) echo "Success??";;
+		* ) echo "Not so sure that worked.";;
+	esac
+done

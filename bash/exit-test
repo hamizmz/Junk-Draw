@@ -1,0 +1,9 @@
+#!/bin/bash
+
+while true; do
+	read -p "Y or N: " input
+	case $input in
+		[Yy]* ) exit 0;;
+		[Nn]* ) exit 1;;
+	esac
+done

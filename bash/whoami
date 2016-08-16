@@ -1,0 +1,10 @@
+#!/bin/bash
+
+function print-em() {
+	printf "Looks like you are:\n\n"
+	for i in "$@"; do
+		printf "    $i\n"
+	done
+}
+
+print-em $(hostname -I)
